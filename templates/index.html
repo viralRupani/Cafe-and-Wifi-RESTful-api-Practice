@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %} All Cafes {% endblock title %}
+
+{% block body %}
+    <center class="my-5"><h1>Find Best Cafe Nearby!</h1></center>
+
+    {% for cafe in cafes %}
+
+     <div class="card my-3 mx-5" style="max-width: auto; height: 200px;">
+      <div class="row g-0">
+        <div class="col-4">
+          <img src="{{ cafe.img_url }}" class="img-fluid rounded-start" alt="Opps! Image Not available." style="width: 400px; height: 200px;">
+        </div>
+        <div class="col-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ cafe.name }}</h5>
+              <a href="{{ cafe.map_url }}" target="_blank"><p class="card-text"><i class="fa-solid fa-location-arrow"></i> {{ cafe.location }}</p></a>
+              <span><i class="fa-solid fa-chair"></i> {{ cafe.seats }}</span> &nbsp
+              <span><i class="fa-solid fa-mug-hot"></i> {{ cafe.coffee_price }}</span> <br/>
+              <span><i class="fa-solid fa-toilet"></i> {% if cafe.has_toilet %} Available {% else: %} Not Available {% endif %}</span><br/>
+              <span><i class="fa-solid fa-wifi"></i> {% if cafe.has_wifi: %} Available {% else: %} Not Available {% endif %} </span><br/>
+              <span><i class="fa-solid fa-phone-flip"></i> {% if cafe.can_take_calls: %} Call Service Available {% else: %} Call Service Not Available {% endif %}</span><br/>
+              <span><i class="fa-solid fa-battery-empty"></i> {% if cafe.has_sockets %} Socket Available {% else: %} Socket Not Available {% endif %}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+
+{% endblock body %}

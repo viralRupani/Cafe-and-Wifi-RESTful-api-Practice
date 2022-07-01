@@ -1,0 +1,13 @@
+.card-body {
+    text-decoration: none;
+}
+
+.card:hover {
+    transform: scale(0.98, 0.98);
+}
+
+.footer {
+    height: 200px;
+    width: auto;
+    background-color: grey;
+}

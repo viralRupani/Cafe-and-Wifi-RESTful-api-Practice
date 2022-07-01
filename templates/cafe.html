@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ cafe.name }} {% endblock title %}
+
+{% block body %}
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ cafe.img_url }}" class="d-block w-100" alt="Image not available!" style="height: 600px">
+          <div class="carousel-caption d-none d-md-block">
+            <h2>{{ cafe.name }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock body %}
