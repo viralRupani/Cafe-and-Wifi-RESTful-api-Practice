@@ -111,10 +111,9 @@ def show_all_cafes():
     return render_template('index.html', cafes=cafes)
 
 
-@app.route("/search")
-def search():
-    query_name = request.args.get("n")
-    print(query_name)
+@app.route("/search", methods=["GET"])
+def search_cafe():
+    query_name = request.args.get("n").title()
     cafe = db.session.query(Cafe).filter_by(name=query_name).first()
     if cafe:
         return render_template('search_cafe.html', cafe=cafe)
