@@ -57,15 +57,18 @@ def authenticated_only(f):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = Login()
-    user = User.query.filter_by(email=login_form.email.data).first()
-    if user:
-        if check_password_hash(pwhash=user.password, password=login_form.password.data):
-            login_user(user)
-            return redirect(url_for('show_all_cafes'))
+    if login_form.validate_on_submit():
+        user = User.query.filter_by(email=login_form.email.data).first()
+        if user:
+            if check_password_hash(pwhash=user.password, password=login_form.password.data):
+                login_user(user)
+                return redirect(url_for('show_all_cafes'))
+            else:
+                flash('Please Check your Email/Password')
+                return redirect(url_for('login'))
         else:
-            flash('Please Check your Email/Password')
-    else:
-        flash('User does not exist')
+            flash('User does not exist')
+            return redirect(url_for('login'))
     return render_template('login.html', form=login_form)
 
 
@@ -94,17 +97,17 @@ def register():
 @app.route('/logout_user')
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('show_all_cafes'))
+
+#
+# @app.route('/')
+# def home():
+#     return 'Welcome to Cafe and Wifi' \
+#            '<br/>' \
+#            '<a href="{{ url_for }}">Start Here</a>'
 
 
 @app.route('/')
-def home():
-    return 'Welcome to Cafe and Wifi' \
-           '<br/>' \
-           '<a href="/show_all_cafes">Start Here</a>'
-
-
-@app.route('/show_all_cafes')
 def show_all_cafes():
     cafes = db.session.query(Cafe).all()
     return render_template('index.html', cafes=cafes)
