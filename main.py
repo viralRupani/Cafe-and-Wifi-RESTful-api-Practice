@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, redirect, url_for, request, abort
+from flask import Flask, jsonify, render_template, redirect, url_for, request, abort, flash
 from flask_sqlalchemy import SQLAlchemy
 from forms import AddCafe, Register, Login
 from flask_login import login_user, UserMixin, LoginManager, current_user, logout_user
@@ -61,12 +61,11 @@ def login():
     if user:
         if check_password_hash(pwhash=user.password, password=login_form.password.data):
             login_user(user)
-            print('logged in')
             return redirect(url_for('show_all_cafes'))
         else:
-            print('check email/password')
+            flash('Please Check your Email/Password')
     else:
-        print('User does not exist')
+        flash('User does not exist')
     return render_template('login.html', form=login_form)
 
 
@@ -86,9 +85,9 @@ def register():
                 db.session.commit()
                 return redirect(url_for('login'))
             else:
-                print('password does not match')
+                flash('password does not match')
         else:
-            print('User Already Exist.')
+            flash('User Already Exist.')
     return render_template('register.html', form=register_form)
 
 
