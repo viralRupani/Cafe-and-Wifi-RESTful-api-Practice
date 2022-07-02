@@ -8,7 +8,7 @@ from functools import wraps
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://jfhagzldxdicev:3a652e65779e9c1b7e8e7d32d97c0573825877ee2f5fe786fe56d73c68bf90b7@ec2-52-72-56-59.compute-1.amazonaws.com:5432/df3f3lshdlego7"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
