@@ -143,16 +143,18 @@ def add_cafe():
     return render_template('add_cafe.html', form=form)
 
 
-@app.route('/update-cafe/<int:cafe_id>', methods=['PATCH', 'GET'])
+@app.route('/update-price/<int:cafe_id>', methods=['PATCH', 'GET'])
 def update_cafe(cafe_id):
-    # form = AddCafe()
-    coffee_price = request.args.get('p')
-    cafe = db.session.query(Cafe).filter_by(id=cafe_id).first()
-    if cafe:
-        cafe.coffee_price = coffee_price
-        db.session.commit()
-        return 'Success', 200
-    return 'Cafe Not available'
+    if request.args.get('secret_key') == 'secret_api_key':
+        coffee_price = request.args.get('p')
+        cafe = db.session.query(Cafe).filter_by(id=cafe_id).first()
+        if cafe:
+            cafe.coffee_price = coffee_price
+            db.session.commit()
+            return redirect(url_for('show_all_cafes'))
+        return 'Cafe Not available'
+    else:
+        return "<center><h3>You are not authorized to delete Cafe</h3></center>", 401
 
 
 @app.route('/delete/<int:cafe_id>')
@@ -166,7 +168,7 @@ def delete_cafe(cafe_id):
         else:
             return "<center><h3></h3>Cafe Not available</center>"
     else:
-        return "<center><h3>You are not authorized to delete Cafe</h3></center>"
+        return "<center><h3>You are not authorized to delete Cafe</h3></center>", 401
 
 
 if __name__ == '__main__':
