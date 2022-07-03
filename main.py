@@ -19,7 +19,7 @@ login_manager = LoginManager(app)
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(30), nullable=False)
-    password = db.Column(db.String(12), nullable=False)
+    password = db.Column(db.String(500), nullable=False)
 
 
 class Cafe(db.Model):
