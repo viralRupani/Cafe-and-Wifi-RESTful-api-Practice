@@ -39,7 +39,7 @@ class Cafe(db.Model):
         return {column.name: getattr(self, column.name) for column in self.__table__.columns}
 
 
-# db.create_all()
+db.create_all()
 
 @login_manager.user_loader
 def load_user(user_id):
