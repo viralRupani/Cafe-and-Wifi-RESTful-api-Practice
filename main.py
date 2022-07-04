@@ -90,7 +90,7 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user)
-            return redirect('show_all_cafes')
+            return redirect(url_for('show_all_cafes'))
         else:
             flash("You've already signed up with that email, log in instead!")
             return redirect('login')
