@@ -41,6 +41,7 @@ class Cafe(db.Model):
 
 db.create_all()
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.filter_by(id=user_id).first()
@@ -52,6 +53,7 @@ def authenticated_only(f):
         if not current_user.is_authenticated:
             return abort(403)
         return f(*args, **kwargs)
+
     return decorated_function
 
 
@@ -79,19 +81,18 @@ def register():
     if register_form.validate_on_submit():
         user = User.query.filter_by(email=register_form.email.data).first()
         if not user:
-            if register_form.password.data == register_form.re_password.data:
-                new_user = User(
-                    email=register_form.email.data,
-                    password=generate_password_hash(password=register_form.password.data, method="pbkdf2:sha256",
-                                                    salt_length=8)
-                )
-                db.session.add(new_user)
-                db.session.commit()
-                return redirect(url_for('login'))
-            else:
-                flash('password does not match')
+            new_user = User(
+                email=register_form.email.data,
+                password=generate_password_hash(password=register_form.password.data, method="pbkdf2:sha256",
+                                                salt_length=8)
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user)
+            return redirect('show_all_cafes')
         else:
-            flash('User Already Exist.')
+            flash("You've already signed up with that email, log in instead!")
+            return redirect('login')
     return render_template('register.html', form=register_form)
 
 
@@ -99,6 +100,7 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('show_all_cafes'))
+
 
 #
 # @app.route('/')
