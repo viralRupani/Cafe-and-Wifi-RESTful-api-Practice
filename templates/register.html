@@ -12,7 +12,8 @@
                             <p style="color:red">{{ message }}</p>
                         {% endfor %}
                     {% endif %}
-                {% endwith %}             {{ form.csrf_token }}
+                {% endwith %}
+             {{ form.csrf_token }}
              {{ wtf.quick_form(form, novalidate=True, button_map={"register": "primary"}) }}
          </div>
      </div>
