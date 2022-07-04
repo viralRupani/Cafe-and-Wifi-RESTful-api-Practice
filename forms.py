@@ -20,7 +20,7 @@ class AddCafe(FlaskForm):
 class Register(FlaskForm):
     email = EmailField('email', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()])
-    # re_password = PasswordField('re_password', validators=[DataRequired()])
+    re_password = PasswordField('re_password', validators=[DataRequired()])
     register = SubmitField('register')
 
 

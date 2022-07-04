@@ -82,14 +82,18 @@ def register():
     if register_form.validate_on_submit():
         user = User.query.filter_by(email=register_form.email.data).first()
         if not user:
-            new_user = User(
-                email=register_form.email.data,
-                password=generate_password_hash(password=register_form.password.data, method="pbkdf2:sha256",
-                                                salt_length=8)
-            )
-            db.session.add(new_user)
-            db.session.commit()
-            login_user(new_user)
+            if register_form.re_password.data == register_form.password.data:
+                new_user = User(
+                    email=register_form.email.data,
+                    password=generate_password_hash(password=register_form.password.data, method="pbkdf2:sha256",
+                                                   salt_length=8)
+                )
+                db.session.add(new_user)
+                db.session.commit()
+                login_user(new_user)
+            else:
+                flash('Password should be same.')
+                return redirect(url_for('register'))
             return redirect(url_for('show_all_cafes'))
         else:
             flash("You've already signed up with that email, log in instead!")
