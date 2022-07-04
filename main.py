@@ -97,7 +97,7 @@ def register():
             return redirect(url_for('show_all_cafes'))
         else:
             flash("You've already signed up with that email, log in instead!")
-            return redirect('login')
+            return redirect(url_for('login'))
     return render_template('register.html', form=register_form)
 
 
@@ -105,14 +105,6 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('show_all_cafes'))
-
-
-#
-# @app.route('/')
-# def home():
-#     return 'Welcome to Cafe and Wifi' \
-#            '<br/>' \
-#            '<a href="{{ url_for }}">Start Here</a>'
 
 
 @app.route('/')
