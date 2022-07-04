@@ -83,18 +83,22 @@ def register():
         user = User.query.filter_by(email=register_form.email.data).first()
         if not user:
             if register_form.re_password.data == register_form.password.data:
-                new_user = User(
-                    email=register_form.email.data,
-                    password=generate_password_hash(password=register_form.password.data, method="pbkdf2:sha256",
-                                                   salt_length=8)
-                )
-                db.session.add(new_user)
-                db.session.commit()
-                login_user(new_user)
+                if len(register_form.password.data) < 8 or len(register_form.password.data) > 15:
+                    flash('Password should be between 8 to 15 characters')
+                    return redirect(url_for('register'))
+                else:
+                    new_user = User(
+                        email=register_form.email.data,
+                        password=generate_password_hash(password=register_form.password.data, method="pbkdf2:sha256",
+                                                       salt_length=8)
+                    )
+                    db.session.add(new_user)
+                    db.session.commit()
+                    login_user(new_user)
+                    return redirect(url_for('show_all_cafes'))
             else:
                 flash('Password should be same.')
                 return redirect(url_for('register'))
-            return redirect(url_for('show_all_cafes'))
         else:
             flash("You've already signed up with that email, log in instead!")
             return redirect(url_for('login'))
